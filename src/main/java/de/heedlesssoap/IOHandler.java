@@ -1,5 +1,6 @@
 package de.heedlesssoap;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
@@ -30,10 +31,31 @@ public class IOHandler {
             }
         }
 
+        System.out.println("You have entered the following System:\n");
         printSystem(system, numVars, varNames);
+        System.out.println();
 
-        //TODO Gauss.solve(a, n);
+        System.out.print("Solve this System? (y or n): ");
+
+        while (scanner.hasNext()) {
+            String input = scanner.next();
+            if (input.equalsIgnoreCase("y")) {
+                //TODO Gauss.solve(system, numVars, varNames);
+                break;
+            }else if(input.equalsIgnoreCase("n")) {
+                clearConsole();
+                queryInput();
+                break;
+            }else {
+                System.out.print("Invalide Input! Try again: ");
+            }
+        }
+
         scanner.close();
+    }
+
+    private static void clearConsole(){
+        System.out.print("\033[H\033[2J");
     }
 
     public static void printSystem(double[][] system, int numVars , String[] varNames) {
