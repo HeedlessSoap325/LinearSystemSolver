@@ -42,8 +42,8 @@ public class IOHandler {
         while (scanner.hasNext()) {
             String input = scanner.next();
             if (input.equalsIgnoreCase("y")) {
-                //TODO Gauss.solve(system, numVars, varNames);
                 clearConsole();
+                Gauss.solve(system, numVars, varNames);
                 break;
             }else if(input.equalsIgnoreCase("n")) {
                 clearConsole();
