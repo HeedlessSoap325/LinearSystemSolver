@@ -91,4 +91,8 @@ public class IOHandler {
             System.out.println(formattedRow);
         }
     }
+
+    public static void printSeparationLine(){
+        System.out.println("-".repeat(70));
+    }
 }
