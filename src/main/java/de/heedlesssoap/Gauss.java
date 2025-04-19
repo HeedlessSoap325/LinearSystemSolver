@@ -2,25 +2,51 @@ package de.heedlesssoap;
 
 public class Gauss {
     public static void solve(double[][] system, int numVars, String[] varNames) {
-        system = reorderSystem(system, numVars);
+        reorderSystem(system, numVars);
 
         System.out.println("Reordered System:");
         IOHandler.printSystem(system, numVars, varNames);
+        IOHandler.printSeparationLine();
+
+        triangulateSystem(system, numVars, varNames);
+
+        System.out.println("Triangulated System:");
+        IOHandler.printSystem(system, numVars, varNames);
+        IOHandler.printSeparationLine();
     }
 
-    private static double[][] reorderSystem(double[][] oldSystem, int numVars) {
-        double[][] newSystem = oldSystem.clone();
+    private static void reorderSystem(double[][] system, int numVars) {
         for (int row = 0; row < numVars; row++) {
             for (int col = 0; col < numVars; col++) {
-                if (oldSystem[row][col] == 0) {
+                if (system[row][col] == 0) {
                     break;
                 }
-                double[] tempFirstRow = oldSystem[0];
-                newSystem[0] = oldSystem[row];
-                newSystem[row] = tempFirstRow;
-                return newSystem;
+                double[] tempFirstRow = system[0];
+                system[0] = system[row];
+                system[row] = tempFirstRow;
+                return;
             }
         }
-        return newSystem;
+    }
+
+    private static void triangulateSystem(double[][] system, int numVars, String[] varNames) {
+        for (int i = 1; i < numVars; i++) {
+            eliminateVariableFromEachRow(system, i, i - 1,numVars);
+            System.out.printf("System after eliminating Variable %s:%n",varNames[i - 1]);
+            IOHandler.printSystem(system, numVars, varNames);
+            IOHandler.printSeparationLine();
+        }
+    }
+
+    private static void eliminateVariableFromEachRow(double[][] system, int startRow, int startCol, int numVars) {
+        for (int row = startRow; row < numVars; row++) {
+            double factor = system[row][startCol] / system[startRow - 1][startCol];
+            if(system[row][startCol] == 0) {
+                continue;
+            }
+            for (int col = startCol; col < numVars + 1; col++) {
+                system[row][col] -= system[startRow - 1][col] * factor;
+            }
+        }
     }
 }
