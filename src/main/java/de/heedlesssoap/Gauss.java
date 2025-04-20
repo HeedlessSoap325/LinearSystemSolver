@@ -3,16 +3,13 @@ package de.heedlesssoap;
 public class Gauss {
     public static void solve(double[][] system, int numVars, String[] varNames) {
         reorderSystem(system, numVars);
-
-        System.out.println("Reordered System:");
-        IOHandler.printSystem(system, numVars, varNames);
-        IOHandler.printSeparationLine();
+        IOHandler.printSystemWithLable("Reordered System", system, numVars, varNames);
 
         triangulateSystem(system, numVars, varNames);
+        IOHandler.printSystemWithLable("Triangulated System:", system, numVars, varNames);
 
-        System.out.println("Triangulated System:");
-        IOHandler.printSystem(system, numVars, varNames);
-        IOHandler.printSeparationLine();
+        double[] solutions = backSubstitution(system, numVars);
+        IOHandler.printSolution(solutions, numVars, varNames);
     }
 
     private static void reorderSystem(double[][] system, int numVars) {
@@ -32,9 +29,7 @@ public class Gauss {
     private static void triangulateSystem(double[][] system, int numVars, String[] varNames) {
         for (int i = 1; i < numVars; i++) {
             eliminateVariableFromEachRow(system, i, i - 1,numVars);
-            System.out.printf("System after eliminating Variable %s:%n",varNames[i - 1]);
-            IOHandler.printSystem(system, numVars, varNames);
-            IOHandler.printSeparationLine();
+            IOHandler.printSystemWithLable(String.format("System after eliminating Variable %s", varNames[i - 1]), system, numVars, varNames);
         }
     }
 
