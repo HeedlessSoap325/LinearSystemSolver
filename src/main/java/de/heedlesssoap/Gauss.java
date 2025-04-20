@@ -49,4 +49,15 @@ public class Gauss {
             }
         }
     }
+
+    private static double[] backSubstitution(double[][] system, int numVars) {
+        double[] solutions = new double[numVars];
+        for(int i = numVars - 1; i >= 0; i--) {
+            for (int varIdx = numVars - 1; varIdx > i; varIdx--) {
+                system[i][numVars] -= system[i][varIdx] * solutions[varIdx];
+            }
+            solutions[i] = system[i][numVars] / system[i][i];
+        }
+        return solutions;
+    }
 }
