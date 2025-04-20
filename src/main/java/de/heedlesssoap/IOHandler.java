@@ -95,4 +95,18 @@ public class IOHandler {
     public static void printSeparationLine(){
         System.out.println("-".repeat(70));
     }
+
+    public static void printSystemWithLable(String lable, double[][] system, int numVars , String[] varNames) {
+        System.out.println(lable);
+        printSystem(system, numVars, varNames);
+        printSeparationLine();
+    }
+
+    public static void printSolution(double[] solutions, int numVars, String[] varNames) {
+        for (int i = numVars - 1; i >= 0; i--) {
+            String sol = new DecimalFormat("#.##########").format(solutions[i]);
+            System.out.printf("Solution of Variable %s: %s%n", varNames[i], sol);
+        }
+        printSeparationLine();
+    }
 }
